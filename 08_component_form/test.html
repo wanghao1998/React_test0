@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script src="../js/babel.min.js"></script>
+</head>
+<body>
+<div id="test">
+
+</div>
+</body>
+<script type="text/babel">
+ /*   需求: 自定义包含表单的组件
+    1. 输入用户名密码后, 点击登陆提示输入信息
+    3. 不提交表单
+1)	问题: 在react应用中, 如何收集表单输入数据
+2)	包含表单的组件分类
+    a.	受控组件: 表单项输入数据能自动收集成状态
+    b.	非受控组件: 需要时才手动读取表单输入框中的数据
+
+    */
+ class LoginForm extends React.Component{
+     constructor(props){
+         super(props);
+         this.state = {
+             pas :''
+         };
+         this.handleSubmit = this.handleSubmit.bind(this);
+         this.handleChange = this.handleChange.bind(this);
+     }
+     handleSubmit(event){
+
+        //阻止事件的默认行为发生(提交)
+         event.preventDefault();
+         const name = this.names.value;
+         const {pas} = this.state;
+         alert(`准备提交的用户名为${name},密码为${pas}`)
+     }
+     handleChange(event){
+        //读取输入的值更新pas状态
+         const pas = event.target.value;
+         this.setState({pas})
+     }
+     render() {
+         return (
+             <form action="test.html" onSubmit={this.handleSubmit}>
+                 用户名：<input type="text" ref={names=>this.names = names}/>
+                 密码：<input type="password" value={this.state.pas} onChange={this.handleChange}/>
+                 <input type="submit" value="登录"/>
+             </form>
+         )
+     }
+ }
+
+ // List.propTypes = {
+ //     todos: PropTypes.array.isRequired
+ // };
+ ReactDOM.render(<LoginForm/>,document.getElementById('test'))
+</script>
+</html>

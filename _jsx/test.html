@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+</head>
+<body>
+<div id="test1">
+
+</div>
+<div id="test2">
+
+</div>
+</body>
+<script type="text/babel">
+    const msq = 'Y Like You';
+    const myID = '我爱你';
+    //创建虚拟dom
+    // var element = React.createElement('h1',{id:'mytitle'},'hello')
+    const vDom1 = React.createElement('h2',{id:myID.toLowerCase()},msq.toUpperCase());
+    //渲染dom
+    ReactDOM.render(vDom1,document.getElementById('test1'));
+</script>
+<script type="text/babel">
+    const vDom2 = <h3 id={myID.toUpperCase()}>{msq.toLowerCase()}</h3>;
+    debugger
+    ReactDOM.render(vDom2,document.getElementById('test2'));
+</script>
+</html>

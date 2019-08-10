@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script src="../js/babel.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+</body>
+<script type="text/babel">
+    class HelloWorld extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {
+                date: new Date()
+            }
+        }
+        componentDidMount () {
+            setInterval(() => {
+                this.setState({
+                    date: new Date()
+                })
+            }, 1000)
+        }
+
+        render () {
+            return (
+                <p>
+                    Hello, <input type="text" placeholder="Your name here"/>!&nbsp;
+                    It is {this.state.date.toTimeString()}
+                </p>
+            )
+        }
+    }
+
+    ReactDOM.render(<HelloWorld/>, document.getElementById('example'))
+
+</script>
+</html>

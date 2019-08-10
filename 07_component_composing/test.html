@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script src="../js/babel.min.js"></script>
+</head>
+<body>
+<div id="test">
+
+</div>
+</body>
+<script type="text/babel">
+ /*   功能: 组件化实现此功能
+    1. 显示所有todo列表
+    2. 输入文本, 点击按钮显示到列表的首位, 并清除输入的文本
+    2.5.2. 功能界面的组件化编码流程(无比重要)
+        1)	拆分组件: 拆分界面,抽取组件
+        2)	实现静态组件: 使用组件实现静态页面效果
+        3)	实现动态组件
+            a.	动态显示初始化数据
+            b.	交互功能(从绑定事件监听开始)
+
+    *///
+ //数据保存在哪个组件内？
+ // 由于数组数据都需要使用，放到最外层app
+ //需要在子组件中改变父组件状态：
+ //    子组件不可直接修改父组件状态，状态在那个组件，更新行为定义在哪个组件
+        //解决方法：父组件定义函数，传递给子组件
+    class App extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                todos:['吃饭','睡觉','打游戏']
+            }
+            this.addTodo = this.addTodo.bind(this)
+        }
+        addTodo(todo){
+
+            const {todos} = this.state;
+            todos.unshift(todo);
+            this.setState({todos});
+        }
+        render() {
+            const {todos} = this.state;
+            return (
+             <div>
+                 <h1>Simp TODO List</h1>
+                 <Add count = {todos.length} addTodo={this.addTodo}/>
+                 <List todos={todos}/>
+             </div>
+            )
+        }
+    }
+    class Add extends React.Component{
+     constructor(props){
+         super(props);
+         this.onTJ = this.onTJ.bind(this)
+     }
+     onTJ(){
+        //1.读取输入数据
+         const val = this.input.value.trim();
+         //2.检查合法性
+         if(!val){
+             return
+         }
+         //3.添加
+         this.props.addTodo(val);
+         this.input.value = '';
+     }
+     render() {
+         return(
+             <div>
+                 <input type="text" ref={input => this.input = input}/>
+                 <button  onClick={this.onTJ}>add #{this.props.count+1}</button>
+             </div>
+         )
+     }
+ }
+    class List extends React.Component{
+     render() {
+         const {todos} = this.props;
+         return (
+             <div>
+                 <ul>
+                     {
+                         todos .map((todo,index) => <li key={index}>{todo}</li>)
+                     }
+                 </ul>
+             </div>
+         )
+     }
+ }
+    List.propTypes = {
+        todos: PropTypes.array.isRequired
+ }
+    Add.propTypes = {
+        count: PropTypes.number.isRequired,
+        addTodo:PropTypes.func.isRequired
+ }
+    ReactDOM.render(<App/>,document.getElementById('test'))
+
+</script>
+</html>
